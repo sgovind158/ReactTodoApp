@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./taskHeader.module.css";
 
-const TaskHeader = () => {
+const TaskHeader = ({pendingTask,task}) => {
   // sample values to be replaced
-  let totalTask = 0;
-  let unCompletedTask = 0;
+  let totalTask = pendingTask;
+  let unCompletedTask = task ;
 
   // NOTE: do not delete `data-cy` key value pair
   return (
