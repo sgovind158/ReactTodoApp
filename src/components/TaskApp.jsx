@@ -1,49 +1,64 @@
 import React ,{useState} from "react";
 
 import styles from "./taskApp.module.css";
-import TaskHeader from "./TaskHeader/TaskHeader.jsx"
-import AddTask from "./AddTask/AddTask.jsx"
-import Tasks from "./Tasks/Tasks.jsx"
+import TaskHeader from  "../components/TaskHeader/TaskHeader"
+import AddTask from "../components/AddTask/AddTask"
+import Tasks from "../components/Tasks/Tasks"
 import {v4 as uuidv4} from "uuid";
+import taskData from "../data/tasks.json"
+import ShowCompleteTask from "./ShowCompleteTask";
 
 const TaskApp = () => {
-  const [todos, setTodos] = useState([])
-  const [ pendingTask, setPendingTask] = useState(todos.length)
-  const [ task,setTask] = useState(todos.length)
+  const [tasks,setTasks] = useState(taskData)
+  
+  const addTask = (newTask)=>{
+   
+      let isTaskPresent = tasks.some((task)=> task.text === newTask)
+      if(newTask && !isTaskPresent){
+        const newTaskObj ={
+          id: uuidv4(),
+          text:newTask,
+          done : false,
+          count : 1,
 
-  const addTodo = (value) =>{
-    setTodos([...todos,{
-       id: uuidv4(),
-       value: value,
-    }])
-
-   setTask(task)
-    
+        }
+        console.log(newTaskObj)
+        setTasks([...tasks,newTaskObj])
+      }
   }
+  
+  
 
-  /// delete fun
+const handleUpdateTask = (updateTask)=>{
+  let newTask = tasks.reduce((acc,curr)=>{
+    if(curr.id === updateTask.id){
+      acc.push(updateTask)
+    }else{
+      acc.push(curr)
+    }
+    return acc
+  },[])
+  
+   setTasks([...newTask])
+}
 
-  const deleteTodo = (value,key)=>{
+const handleRemoveTask = (taskId)=>{
+  let newTasks  = tasks.filter((task)=>task.id !== taskId) 
+  console.log(newTasks,"delete Task")
+  setTasks(newTasks)
+}
 
-    let nyatodos = todos.filter((el)=>{
-    return  el.id !== key;
-
-    })
-    setTodos( nyatodos)
-    setPendingTask(nyatodos.length)
-  }
-  // NOTE: do not delete `data-cy` key value pair
   return (
    
-    <div data-cy="task-app" className={styles.taskApp}>
-      {/* Header */}
-      {/* Add Task */}
-      {/* Tasks */}
-    <TaskHeader pendingTask={pendingTask} task = {task}/>
+    <div data-cy="task-app" className={styles.main} >
+    <div className={styles.taskApp}>
+    <TaskHeader tasks = {tasks} />
 
-   <AddTask addTodo = {addTodo}/>
+   <AddTask addTask={addTask} />
 
-    <Tasks todos = {todos}  deleteTodo ={deleteTodo}/>
+    <Tasks  tasks = {tasks} handleUpdateTask = {handleUpdateTask} handleRemoveTask = {handleRemoveTask} />
+   
+    </div>
     </div>
     
   );

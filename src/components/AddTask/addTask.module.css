@@ -1,3 +1,14 @@
 .addTask {
   /* Sample */
+  border: 1px solid red;
+  display: flex;
+  width: 100%;
+  text-align: center;
+  margin: auto;
+}
+
+.addTask input {
+  margin-left: 10%;
+  width: 300px;
+  height: 30px;
 }
