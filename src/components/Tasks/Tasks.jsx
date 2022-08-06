@@ -9,7 +9,7 @@ const Tasks = ({tasks,handleUpdateTask,handleRemoveTask}) => {
   return (
     <>
         
-        {tasks.length >0 ? (<ul data-cy="tasks" className="styles.tasks" >
+        {tasks.length >0 ? (<ul data-cy="tasks" className={`${styles.tasks}`}>
         {/* Task List */}
      {tasks.map((task)=>(
          <Task key={task.id}  task = {task} handleUpdateTask={handleUpdateTask} handleRemoveTask={handleRemoveTask}/>
